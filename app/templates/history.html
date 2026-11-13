@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}Scan History - SentinelMail{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top:100px; margin-bottom:60px;">
+
+    <!-- Header -->
+
+    <div class="text-center mb-5">
+
+        <i class="fa-solid fa-clock-rotate-left text-info" style="font-size:70px;"></i>
+
+        <h1 class="mt-3">Email Scan History</h1>
+
+        <p class="text-secondary">
+            View previously analyzed emails and their AI-generated threat reports.
+        </p>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card-custom p-4 text-center">
+
+                <i class="fa-solid fa-envelope text-info fa-2x"></i>
+
+                <h5 class="mt-3">Total Scans</h5>
+
+                <h2>{{total_scans}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card-custom p-4 text-center">
+
+                <i class="fa-solid fa-circle-check text-success fa-2x"></i>
+
+                <h5 class="mt-3">Safe Emails</h5>
+
+                <h2>{{safe_count}}</h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card-custom p-4 text-center">
+
+                <i class="fa-solid fa-triangle-exclamation text-danger fa-2x"></i>
+
+                <h5 class="mt-3">Threats Detected</h5>
+
+                <h2>{{phishing_count}}</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <div class="card-custom p-4 mb-4">
+
+        <div class="row">
+
+            <div class="col-md-7">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search by sender email...">
+
+            </div>
+
+            <div class="col-md-4">
+
+                <select class="form-select">
+
+                    <option>All Results</option>
+
+                    <option>Safe</option>
+
+                    <option>Phishing</option>
+
+                    <option>Suspicious</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- History Table -->
+
+    <div class="card-custom p-4">
+
+        <h3 class="mb-4">
+
+            Recent Email Analysis
+
+        </h3>
+
+        <table class="table table-dark table-hover align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Scan ID</th>
+
+                    <th>Date</th>
+
+                    <th>Sender</th>
+
+                    <th>Status</th>
+
+                    <th>Risk Score</th>
+
+                    <th>Report</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+{% for scan in scans %}
+                <tr>
+    <td>SC{{"%03d"|format(scan.id)}}</td>
+    <td>{{scan.created_at.strftime("%d %b %Y")}}</td>
+<td>{{scan.email_text[:40]}}{% if scan.email_text|length>40%}...{% endif %}</td>
+<td>
+    {% if scan.result=="Phishing" %}
+    <span class="badge bg-danger">Phishing</span>
+    {% else %}
+    <span class="badge bg-success">Safe</span>
+    {% endif %}
+</td> 
+<td>
+    {{"%.2f"|format(scan.phishing_probability * 100)}}%
+</td> 
+<td>
+    <a href="{{ url_for('result', scan_id=scan.id)}}" class="btn btn-info btn-sm">View</a>
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Buttons -->
+<div class="text-center mt-5">
+
+    <a href="/analyze" class="btn btn-primary me-3">
+        <i class="fas fa-plus"></i>
+        New Scan
+    </a>
+
+    <button class="btn btn-outline-danger">
+        <i class="fas fa-trash"></i>
+        Clear History
+    </button>
+
+</div>
+
+    </div>
+
+</div>
+
+{% endblock %}
