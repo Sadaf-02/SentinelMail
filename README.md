@@ -1,5 +1,10 @@
 # SentinelMail
 
+AI-Powered Email Phishing Detection Platform
+
+🚀 **Live Demo:** https://sentinelmail-d05c.onrender.com
+
+
 ### AI-Powered Email Phishing Detection & Threat Analysis Platform
 
 SentinelMail is a machine learning-powered web application designed to identify phishing emails and analyze potential email-based cybersecurity threats. It combines machine learning classification with rule-based security analysis to provide users with insights into suspicious email content.
