@@ -62,10 +62,11 @@ print("MAIL_USERNAME:", app.config.get("MAIL_USERNAME"))
 print("MAIL_PASSWORD configured:", bool(app.config.get("MAIL_PASSWORD")))
 print("MAIL_DEFAULT_SENDER:", app.config.get("MAIL_DEFAULT_SENDER"))
 print("=================================")
+mail = Mail(app)
+print("MAIL EXTENSION REGISTERED:", app.extensions.get("mail"))
 
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-app.config["SESSION_COOKIE_SECURE"] = False
 
 limiter=Limiter(
     key_func=get_remote_address,
