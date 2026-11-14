@@ -33,7 +33,7 @@ app = Flask(
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 if not app.config["SECRET_KEY"]:
-    raise RuntimeError("SECRET_KEY is not configured")
+    raise RuntimeError("SECRET_KEY environment variable is not set")
 
 database_url = os.environ.get("DATABASE_URL")
 
@@ -50,7 +50,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = (
-    os.environ.get("SESSION_COOKIE_SECURE", "False") == "True"
+    os.environ.get("SESSION_COOKIE_SECURE", "False").lower() == "True"
 )
 
 
