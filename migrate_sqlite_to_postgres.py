@@ -5,7 +5,7 @@ import runpy
 # 1. Load SentinelMail Flask app + database
 # ==========================================
 
-app_data = runpy.run_path("app.py")
+app_data = runpy.run_path("sentinelmail.py")
 
 app = app_data["app"]
 db = app_data["db"]
