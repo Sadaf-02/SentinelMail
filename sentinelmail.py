@@ -184,10 +184,9 @@ SentinelMail Security Team
             return redirect(url_for("verify_otp"))
 
         except Exception as e:
-
-            print("================================")
+            import traceback
+            traceback.print_exc()
             print("EMAIL ERROR:", repr(e))
-            print("================================")
 
             db.session.rollback()
 
